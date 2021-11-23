@@ -44,9 +44,14 @@ const searchContent = event => {
                 loadMoreBtn.classList.add('visually-hidden');
                 Notify.failure("Sorry, there are no images matching your search query. Please try again.");
             }else {
+                if (data.totalHits <= 40) {
+                    loadMoreBtn.classList.add('visually-hidden');
+                } else {
+                    loadMoreBtn.classList.remove('visually-hidden');
+                }
             clearSearch();
             renderGalleryCard(data);
-            loadMoreBtn.classList.remove('visually-hidden');
+            
             Notify.success(`Hooray! We found ${data.totalHits} images.`);
             totalHint = data.hits.length;
             lightbox.refresh();
@@ -57,8 +62,7 @@ const searchContent = event => {
             window.scrollBy({
               top: cardHeight * 0.5,
               behavior: 'smooth',
-            });
-            }})   
+            });}})   
             .catch(error => {
             console.log(error)});
     }else {
