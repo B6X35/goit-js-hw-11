@@ -82,6 +82,9 @@ const loadMore = () => {
         if(totalHint > data.totalHits){
             loadMoreBtn.classList.add('visually-hidden')
             Notify.failure("We're sorry, but you've reached the end of search results.");
+        }else if (data.hits.length === 0){
+            loadMoreBtn.classList.add('visually-hidden')
+            Notify.failure("We're sorry, but you've reached the end of search results.");
         }else {
             renderGalleryCard(data);
             lightbox.refresh();
