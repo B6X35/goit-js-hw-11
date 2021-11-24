@@ -11,18 +11,19 @@ constructor() {
     this.searchName = '';
     this.pages = 1;
     this.limit = 40;
+    this.totalLimit = 0;
 }
 
 fetchPixbay = async (searchName) => {
-
     const fetch = await axios({
         url: `/?key=${API_KEY}&q=${this.searchName}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.pages}&per_page=${this.limit}`,
         method: 'get',
         baseURL: BASE_URL,
     }).then(response => {
-        console.log(response)
-            if (response.data.totalHits - this.pages < this.limit) {
-                this.limit = response.data.totalHits - this.pages;
+        console.log(response.data)
+        this.totalLimit += this.limit;
+            if (response.data.totalHits - this.totalLimit < this.limit) {
+                this.limit = response.data.totalHits - this.totalLimit;
             }
             this.plusPage();
             return response.data;  
@@ -36,6 +37,14 @@ plusPage() {
 
 resetPages(){
     this.pages = 1;
+}
+
+resetLimit(){
+    this.limit = 40;
+}
+
+resetTotalLimit(){
+    this.totalLimit = 0;
 }
 
 get name() {
